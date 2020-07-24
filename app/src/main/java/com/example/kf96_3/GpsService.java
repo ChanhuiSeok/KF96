@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 
 import com.ismaeldivita.chipnavigation.view.HorizontalMenuItemView;
 
+import org.jetbrains.annotations.NotNull;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -442,7 +443,7 @@ public class GpsService extends Service {
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         g = new Geocoder(this);
         gpsLocationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
+            public void onLocationChanged(@NotNull Location location) {
                 String provider = location.getProvider();
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
@@ -548,7 +549,6 @@ public class GpsService extends Service {
             }
         }
     }
-
 
 
 

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/home"
-        android:icon="@drawable/ic_event_24px"
+        android:icon="@drawable/ic_home_24px"
         app:cnb_iconColor="@color/colorAccent"
         app:cnb_iconSize="1dp"
         android:title="홈" />
