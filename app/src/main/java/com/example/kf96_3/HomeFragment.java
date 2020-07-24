@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment {
         commonNum_textView = (TextView) view.findViewById(R.id.commonNum_textView);
         commonAirLayout = (LinearLayout) view.findViewById(R.id.commonAir_layout);
 
-        if(commonNum_textView.equals("1")){
+        if(commonNum_textView.equals("0") || commonNum_textView.equals("1")){
             commonAir_textView.setText("좋음");
             commonAirLayout.setBackgroundResource(R.drawable.custom_circle_green);
         }

@@ -20,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public DBHelper(Context context){
-        super(context,"dustDB",null, DATABASE_VERSION);
+        super(context,"dustDBS",null, DATABASE_VERSION);
     }
 
     @Override
