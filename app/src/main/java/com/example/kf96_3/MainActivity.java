@@ -202,39 +202,66 @@ public class MainActivity extends AppCompatActivity {
                             b_mangName = false;
                         }
                         if (b_so2Value) {
-                            map.put("so2Value",xpp.getText());
+                            if(xpp.getText().equals("-"))
+                                map.put("so2Value","0");
+                            else
+                                map.put("so2Value",xpp.getText());
                             b_so2Value = false;
                         }
                         if (b_coValue) {
-                            map.put("coValue",xpp.getText());
+                            if(xpp.getText().equals("-"))
+                                map.put("coValue","0");
+                            else
+                                map.put("coValue",xpp.getText());
                             b_coValue = false;
                         }
                         if (b_o3Value) {
-                            map.put("o3Value",xpp.getText());
+                            if(xpp.getText().equals("-"))
+                                map.put("o3Value","0");
+                            else
+                                map.put("o3Value",xpp.getText());
                             b_o3Value = false;
                         }
                         if (b_no2Value) {
-                            map.put("no2Value",xpp.getText());
+                            if(xpp.getText().equals("-"))
+                                map.put("no2Value","0");
+                            else
+                                map.put("no2Value",xpp.getText());
                             b_no2Value = false;
                         }
                         if (b_pm10Value) {
-                            map.put("pm10Value",xpp.getText());
+                            if(xpp.getText().equals("-"))
+                                map.put("pm10Value","0");
+                            else
+                                map.put("pm10Value",xpp.getText());
                             b_pm10Value = false;
                         }
                         if (b_pm10Value24) {
-                            map.put("pm10Value24",xpp.getText());
+                            if(xpp.getText().equals("-"))
+                                map.put("pm10Value24","0");
+                            else
+                                map.put("pm10Value24",xpp.getText());
                             b_pm10Value24 = false;
                         }
                         if (b_pm25Value) {
-                            map.put("pm25Value",xpp.getText());
+                            if(xpp.getText().equals("-"))
+                                map.put("pm25Value","0");
+                            else
+                                map.put("pm25Value",xpp.getText());
                             b_pm25Value = false;
                         }
                         if (b_pm25Value24) {
-                            map.put("pm25Value24",xpp.getText());
+                            if(xpp.getText().equals("-"))
+                                map.put("pm25Value24","0");
+                            else
+                                map.put("pm25Value24",xpp.getText());
                             b_pm25Value24 = false;
                         }
                         if (b_khaivalue) {
-                            map.put("khaiValue",xpp.getText());
+                            if(xpp.getText().equals("-"))
+                                map.put("khaiValue","0");
+                            else
+                                map.put("khaiValue",xpp.getText());
                             b_khaivalue = false;
                         }
                         if (b_khaiGrade) {
