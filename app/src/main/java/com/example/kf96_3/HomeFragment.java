@@ -127,12 +127,16 @@ public class HomeFragment extends Fragment {
         cur_location.setText(MainActivity.current_location);
 
         // 테스트용
+        //
+        //
+        /*
         String cur_dust_str = "측정일 : "+ MainActivity.current_dust_data.get("dataTime") + "\n" +
                 " 오존 농도 : " + MainActivity.current_dust_data.get("o3Value") + "\n" +
                 " 미세먼지(PM10) 농도 :" + MainActivity.current_dust_data.get("pm10Value") + "\n" +
                 " 초미세먼지(PM2.5) 농도 :" + MainActivity.current_dust_data.get("pm25Value") +
                 " 미세먼지(PM10) 등급 : " + MainActivity.current_dust_data.get("pm10Grade");
         cur_dust.setText(cur_dust_str);
+        */
 
         return view;
     }

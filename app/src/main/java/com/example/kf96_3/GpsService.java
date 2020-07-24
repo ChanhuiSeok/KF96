@@ -47,7 +47,7 @@ public class GpsService extends Service {
     public static String current_station; // 현재 측정소
     //public Mythread t1;
     public LocationManager lm;
-    public LocationListener gpsLocationListener;
+    public static LocationListener gpsLocationListener;
     public static GpsService serviceObj = null;
 
     public GpsService() {

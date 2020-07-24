@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorSoftBLue"
+    android:background="@color/colorAccent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/calendar_title"
-                android:textSize="24dp"
+                android:textSize="27dp"
                 android:textStyle="bold"
                 android:paddingTop="22dp"
                 android:paddingLeft="10dp"
@@ -41,11 +41,10 @@
             <LinearLayout
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/custom_blank"
-                android:elevation="2dp"
-                android:orientation="vertical"
                 android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/custom_blank_title"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
@@ -55,9 +54,50 @@
                     android:layout_gravity="left"
                     android:padding="10dp"
                     android:text="현재 위치를 받아오는 부분"
-                    android:textColor="@color/colorNavy"
+                    android:textColor="@color/colorWhite"
                     android:textSize="17dp"
                     android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <Button
+                    android:id="@+id/startService"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:text="시작"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/finishService"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/custom_button"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/colorWhite"
+                    android:layout_weight="1"
+                    android:text="종료"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="330dp"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_blank"
+                android:elevation="2dp"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/cur_dust"
                     android:layout_width="wrap_content"
@@ -65,31 +105,9 @@
                     android:layout_gravity="left"
                     android:padding="10dp"
                     android:text="현재 미세먼지 정보 받아오기"
-                    android:textColor="@color/colorGray"
+                    android:textColor="@color/colorWhite"
                     android:textSize="15dp"
                     android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/startService"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:text="시작"
-                    android:textAlignment="center" />
-
-                <Button
-                    android:id="@+id/finishService"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:text="종료"
-                    android:textAlignment="center" />
 
             </LinearLayout>
 
