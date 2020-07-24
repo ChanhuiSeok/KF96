@@ -137,7 +137,7 @@ public class GpsService extends Service {
         String test_tmY = Double.toString(temp_tmY);
         String oper_ver = "1.0";
         StringBuilder urlBuilder = new StringBuilder("http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList");
-        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=CWiUwqUoaLsPMRKzSVdqs4QtbeSFBCsdkmhLm9wVhQZT9nJYIL8jQBR9U6uKyhGEZoQSU2v4Yeh2yijtE7JBwA%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=zO%2FALX92DLcoHKJkPghBFL%2FX9Uv00qqrvM9rVGH7n60Wz0k9hlNpPiNwMLDndeechzzKWHExU2kJ8zXL%2FaUJRw%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("tmX", "UTF-8") + "=" + URLEncoder.encode(test_tmX, "UTF-8")); /*TM측정방식 X좌표*/
         urlBuilder.append("&" + URLEncoder.encode("tmY", "UTF-8") + "=" + URLEncoder.encode(test_tmY, "UTF-8")); /*TM측정방식 Y좌표*/
         //urlBuilder.append("&" + URLEncoder.encode("ver", "UTF-8") + "=" + URLEncoder.encode("1.0", "UTF-8"));
@@ -606,7 +606,6 @@ public class GpsService extends Service {
                         try {
                             final ArrayList<String> data = getXmlData(tm_pt.getX(), tm_pt.getY());
                             final HashMap<String, String> value = getDustXmlData(data.get(0).toString());
-
 
                             MainActivity.mainActivity.runOnUiThread(new Runnable() {
                                 @Override

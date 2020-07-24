@@ -3,8 +3,12 @@
 
     <item android:state_focused="false" android:state_pressed="false">
         <shape>
-            <solid android:color="@color/colorAccent"/>
-            <corners android:radius="25dp" />
+            <gradient
+                android:angle="90"
+            android:type="linear"
+            android:startColor="#2584F8"
+            android:endColor="#35BDFB"/>
+            <corners android:radius="15dp" />
         </shape>
     </item>
 

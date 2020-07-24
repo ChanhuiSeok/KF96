@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorAccent"
+    android:background="@color/colorLightGray"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -21,24 +21,16 @@
 
             <TextView
                 android:id="@+id/calendar_title"
-                android:textSize="27dp"
+                android:textSize="31dp"
                 android:textStyle="bold"
                 android:paddingTop="22dp"
                 android:paddingLeft="10dp"
                 android:paddingBottom="5dp"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorNavy"
                 android:layout_width="match_parent"
+                android:letterSpacing="-0.05"
                 android:layout_height="wrap_content"
                 android:text="📆 일일 미세먼지 현황" />
-
-            <TextView
-                android:id="@+id/detail_title"
-                android:paddingLeft="10dp"
-                android:paddingBottom="10dp"
-                android:layout_width="match_parent"
-                android:textColor="@color/colorWhite"
-                android:layout_height="wrap_content"
-                android:text="날짜별 미세먼지 기록을 파악해 보세요" />
 
             <CalendarView
                 android:id="@+id/calender"
