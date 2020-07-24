@@ -41,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GpsService extends Service {
-    public Geocoder g ;
+    public Geocoder g;
     double longitude; // 경도
     double latitude; // 위도
     public static String current_location; // 현재 위치
@@ -81,7 +81,7 @@ public class GpsService extends Service {
 
             ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE))
                     .createNotificationChannel(channel);
-            builder = new NotificationCompat.Builder(this,CHANNEL_ID);
+            builder = new NotificationCompat.Builder(this, CHANNEL_ID);
         } else {
             builder = new NotificationCompat.Builder(this);
         }
@@ -98,11 +98,10 @@ public class GpsService extends Service {
         db_value = null;
 
         initGps();
-       // t1 = new Mythread();
-       // t1.start();
+        // t1 = new Mythread();
+        // t1.start();
         return START_NOT_STICKY;
     }
-
 
 
     @Override
@@ -110,7 +109,7 @@ public class GpsService extends Service {
         super.onDestroy();
         System.out.println("service onDestroy 호출");
         serviceObj = null;
-       // t1 = null;
+        // t1 = null;
         lm.removeUpdates(gpsLocationListener);
         stopSelf();
 
@@ -351,89 +350,89 @@ public class GpsService extends Service {
                             b_item = false;
                         }
                         if (b_dataTime) {
-                            map.put("dataTime",xpp.getText());
+                            map.put("dataTime", xpp.getText());
                             b_dataTime = false;
                         }
                         if (b_mangName) {
-                            map.put("mangName",xpp.getText());
+                            map.put("mangName", xpp.getText());
                             b_mangName = false;
                         }
                         if (b_so2Value) {
-                            map.put("so2Value",xpp.getText());
+                            map.put("so2Value", xpp.getText());
                             b_so2Value = false;
                         }
                         if (b_coValue) {
-                            map.put("coValue",xpp.getText());
+                            map.put("coValue", xpp.getText());
                             b_coValue = false;
                         }
                         if (b_o3Value) {
-                            map.put("o3Value",xpp.getText());
+                            map.put("o3Value", xpp.getText());
                             b_o3Value = false;
                         }
                         if (b_no2Value) {
-                            map.put("no2Value",xpp.getText());
+                            map.put("no2Value", xpp.getText());
                             b_no2Value = false;
                         }
                         if (b_pm10Value) {
-                            map.put("pm10Value",xpp.getText());
+                            map.put("pm10Value", xpp.getText());
                             b_pm10Value = false;
                         }
                         if (b_pm10Value24) {
-                            map.put("pm10Value24",xpp.getText());
+                            map.put("pm10Value24", xpp.getText());
                             b_pm10Value24 = false;
                         }
                         if (b_pm25Value) {
-                            map.put("pm25Value",xpp.getText());
+                            map.put("pm25Value", xpp.getText());
                             b_pm25Value = false;
                         }
                         if (b_pm25Value24) {
-                            map.put("pm25Value24",xpp.getText());
+                            map.put("pm25Value24", xpp.getText());
                             b_pm25Value24 = false;
                         }
                         if (b_khaivalue) {
-                            map.put("khaiValue",xpp.getText());
+                            map.put("khaiValue", xpp.getText());
                             b_khaivalue = false;
                         }
                         if (b_khaiGrade) {
-                            map.put("khaiGrade",xpp.getText());
+                            map.put("khaiGrade", xpp.getText());
                             b_khaiGrade = false;
                         }
                         if (b_so2Grade) {
-                            map.put("so2Grade",xpp.getText());
+                            map.put("so2Grade", xpp.getText());
                             b_so2Grade = false;
                         }
                         if (b_coGrade) {
-                            map.put("coGrade",xpp.getText());
+                            map.put("coGrade", xpp.getText());
                             b_coGrade = false;
                         }
                         if (b_o3Grade) {
-                            map.put("o3Grade",xpp.getText());
+                            map.put("o3Grade", xpp.getText());
                             b_o3Grade = false;
                         }
                         if (b_no2Grade) {
-                            map.put("no2Grade",xpp.getText());
+                            map.put("no2Grade", xpp.getText());
                             b_no2Grade = false;
                         }
                         if (b_pm10Grade) {
-                            map.put("pm10Grade",xpp.getText());
+                            map.put("pm10Grade", xpp.getText());
                             b_pm10Grade = false;
                         }
                         if (b_pm25Grade) {
-                            map.put("pm25Grade",xpp.getText());
+                            map.put("pm25Grade", xpp.getText());
                             b_pm25Grade = false;
                         }
                         if (b_pm10Grade1h) {
-                            map.put("pm10Grade1h",xpp.getText());
+                            map.put("pm10Grade1h", xpp.getText());
                             b_pm10Grade1h = false;
                         }
                         if (b_pm25Grade1h) {
-                            map.put("pm25Grade1h",xpp.getText());
+                            map.put("pm25Grade1h", xpp.getText());
                             b_pm25Grade1h = false;
                         }
                         break;
 
                     case XmlPullParser.END_TAG:
-                        if (xpp.getName().equals("item")){
+                        if (xpp.getName().equals("item")) {
                             cur_flag = true;
                             break;
                         }
@@ -451,8 +450,7 @@ public class GpsService extends Service {
     }
 
 
-
-    public void initGps(){
+    public void initGps() {
 
         result = new HashMap<>();
         result.put("좋음", 0);
@@ -472,7 +470,7 @@ public class GpsService extends Service {
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
                 double altitude = location.getAltitude();
-                Log.d("change","onLocationChanged lng : "+longitude+" lat : "+latitude);
+                Log.d("change", "onLocationChanged lng : " + longitude + " lat : " + latitude);
                 List<Address> address = null;
 
                 try {
@@ -500,14 +498,14 @@ public class GpsService extends Service {
                         Log.d("test", "thread run 시작");
                         try {
                             final ArrayList<String> data = getXmlData(tm_pt.getX(), tm_pt.getY());
-                            final HashMap<String,String> value = getDustXmlData(data.get(0).toString());
+                            final HashMap<String, String> value = getDustXmlData(data.get(0).toString());
 
                             System.out.println("value" + value);
                             System.out.println(value.get("pm10Value"));
                             // pm10Value
-                            String pm10Value = ""+value.get("pm10Value");
-                            String pm10Grade = ""+value.get("pm10Grade");
-                            String pm25Value = ""+value.get("pm25Value");
+                            String pm10Value = "" + value.get("pm10Value");
+                            String pm10Grade = "" + value.get("pm10Grade");
+                            String pm25Value = "" + value.get("pm25Value");
                             String pm25Grade = (String) value.get("pm25Grade");
                             System.out.println(pm10Value);
                             System.out.println(pm10Grade);
@@ -515,13 +513,13 @@ public class GpsService extends Service {
                             System.out.println(pm25Grade);
 
                             // 카운트
-                            if (Integer.parseInt(pm25Grade) == 1){
+                            if (Integer.parseInt(pm25Grade) == 1) {
                                 result.put("좋음", result.get("좋음") + 1);
-                            }else if(Integer.parseInt(pm25Grade) == 2){
+                            } else if (Integer.parseInt(pm25Grade) == 2) {
                                 result.put("보통", result.get("보통") + 1);
-                            }else if(Integer.parseInt(pm25Grade) == 3){
+                            } else if (Integer.parseInt(pm25Grade) == 3) {
                                 result.put("나쁨", result.get("나쁨") + 1);
-                            }else if(Integer.parseInt(pm25Grade) == 4){
+                            } else if (Integer.parseInt(pm25Grade) == 4) {
                                 result.put("매우나쁨", result.get("매우나쁨") + 1);
                             }
 
@@ -558,7 +556,7 @@ public class GpsService extends Service {
         } else {
             Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             assert location != null;
-            System.out.println("location : "+location);
+            System.out.println("location : " + location);
             if (location != null) {
 
                 String provider = location.getProvider();   // GPS
@@ -607,7 +605,7 @@ public class GpsService extends Service {
                         Log.d("test", "thread run 시작");
                         try {
                             final ArrayList<String> data = getXmlData(tm_pt.getX(), tm_pt.getY());
-                            final HashMap<String,String> value = getDustXmlData(data.get(0).toString());
+                            final HashMap<String, String> value = getDustXmlData(data.get(0).toString());
 
 
                             MainActivity.mainActivity.runOnUiThread(new Runnable() {
@@ -631,3 +629,4 @@ public class GpsService extends Service {
         }
     }
 }
+

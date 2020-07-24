@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
 
         homeFragment = this;
         cur_location = (TextView) view.findViewById(R.id.cur_location);
-        cur_dust = (TextView) view.findViewById(R.id.cur_dust);
+        cur_dust = (TextView) view.findViewById(R.id.pm10Text);
         serviceStartBtn = (Button)view.findViewById(R.id.startService);
         serviceFinishBtn = (Button)view.findViewById(R.id.finishService);
 
