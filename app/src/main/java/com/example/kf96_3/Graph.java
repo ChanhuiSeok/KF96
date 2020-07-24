@@ -22,8 +22,10 @@ import java.util.ArrayList;
 
 public class Graph extends AppCompatActivity {
 
-    BarChart chart;
-    LineChart linechart;
+
+    public static void setBarChart() {
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +37,12 @@ public class Graph extends AppCompatActivity {
     }
 
     // 일일 데이터
-    private void setBarChart(int good, int normal, int bad, int very_bad){
+    public void setBarChart(int good, int normal, int bad, int very_bad){
         BarChart chart;
         chart = (BarChart) findViewById(R.id.chart);
 
         chart.clearChart();
-        chart.addBar(new BarModel("좋음", good, Color.rgb(000, 102, 204)));
+        chart.addBar(new BarModel("좋음", good, Color.rgb(0, 102, 204)));
         chart.addBar(new BarModel("보통", normal, Color.rgb(102, 204, 0)));
         chart.addBar(new BarModel("나쁨", bad, Color.rgb(255, 102, 0)));
         chart.addBar(new BarModel("매우나쁨", very_bad, Color.rgb(255, 80, 80)));
@@ -49,7 +51,7 @@ public class Graph extends AppCompatActivity {
     }
 
     // 주간 데이터
-    private void setlineChart(float Mon, float Tue, float Wed, float Thur, float Fri, float Sat, float Sun){
+    public void setlineChart(float Mon, float Tue, float Wed, float Thur, float Fri, float Sat, float Sun){
         LineChart lineChart;
         lineChart = (LineChart) findViewById(R.id.chart2);
 
