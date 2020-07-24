@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     HomeFragment homefrag;
 
-    // API로부터 데이터 받아오기
+    // getXmlData() : 측정소의 이름을 구하는 함수로, API로부터 데이터 받아오는 함수. 반환값은 리스트 형태이며, 리스트 맨 첫번째 요소를 활용하면 된다.
     public ArrayList<String> getXmlData() throws IOException {
         StringBuffer buffer = new StringBuffer();
         ArrayList<String> list = new ArrayList<String>();
@@ -57,13 +57,10 @@ public class MainActivity extends AppCompatActivity {
         urlBuilder.append("&" + URLEncoder.encode("tmY", "UTF-8") + "=" + URLEncoder.encode("412423.75772", "UTF-8")); /*TM측정방식 Y좌표*/
         urlBuilder.append("&" + URLEncoder.encode("ver", "UTF-8") + "=" + URLEncoder.encode("1.0", "UTF-8"));
 
-        try {
-            URL url = new URL(urlBuilder.toString());
-        /*
+        URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
-        //System.out.println("Response code: " + conn.getResponseCode());
         BufferedReader rd;
         if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -76,37 +73,63 @@ public class MainActivity extends AppCompatActivity {
             sb.append(line);
         }
         rd.close();
-        conn.disconnect();*/
-            BufferedInputStream bis = new BufferedInputStream(url.openStream());
-            String tag = null, location = null;
+        conn.disconnect();
+        System.out.print(sb.toString());
 
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();//xml파싱을 위한
-            factory.setNamespaceAware(true);
+        // 파싱하기
+        InputStream is = url.openStream(); //url위치로 입력스트림 연결
+        try {
+            boolean b_item = false;
+            boolean b_addr = false;
+            boolean b_station = false;
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             XmlPullParser xpp = factory.newPullParser();
-            xpp.setInput(new InputStreamReader(bis, "UTF-8")); //inputstream 으로부터 xml 입력받기
+            xpp.setInput(new InputStreamReader(is, "UTF-8"));
 
-            int event_type= xpp.getEventType();
-            while (event_type != XmlPullParser.END_DOCUMENT) {
-                if (event_type == XmlPullParser.START_TAG) {
-                    tag = xpp.getName();
-                } else if (event_type == XmlPullParser.TEXT) {
-                    if(tag.equals("stationName")){
-                        location = xpp.getText();
-                    }
-                } else if (event_type == XmlPullParser.END_TAG) {
-                    tag = xpp.getName();
-                    if (tag.equals("item")) {
-                        list.add(location);
-                    }
+            String tag;
+            xpp.next();
+            int eventType = xpp.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        if (xpp.getName().equals("item")) {
+                            b_item = true;
+                        }
+                        if (xpp.getName().equals("addr")) {
+                            b_addr = true;
+                        }
+                        if (xpp.getName().equals("stationName")) {
+                            b_station = true;
+                        }
+                        break;
+                    case XmlPullParser.TEXT:
+                        if (b_item) {
+                            b_item = false;
+                        }
+                        if (b_addr) {
+                            b_addr = false;
+                        }
+                        if (b_station) {
+                            list.add(xpp.getText());
+                            b_station = false;
+                        }
+                        break;
+
+                    case XmlPullParser.END_TAG:
+                        if (xpp.getName().equals("item"))
+                            break;
+                    case XmlPullParser.END_DOCUMENT:
+                        break;
                 }
-                event_type = xpp.next();
+                eventType = xpp.next();
             }
 
         } catch (Exception e) {
-
+            //
         }
-
-        return list;
+        return list; // 측정소 문자열 값을 반환한다.
     }
 
 
@@ -124,9 +147,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNav = findViewById(R.id.bottom_nav);
-
-        
-
 
         if (savedInstanceState == null) {
             bottomNav.setItemSelected(R.id.home, true);
