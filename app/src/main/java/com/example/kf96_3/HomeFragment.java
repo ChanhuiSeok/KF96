@@ -1,5 +1,8 @@
 package com.example.kf96_3;
 
+import android.content.Context;
+import android.location.Geocoder;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -23,16 +26,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
 
     TextView cur_location;
     TextView cur_dust;
     XmlPullParser xpp;
+
+    // 위치 txt
+    private TextView lcoation_txt;
+
 
     String key = "CWiUwqUoaLsPMRKzSVdqs4QtbeSFBCsdkmhLm9wVhQZT9nJYIL8jQBR9U6uKyhGEZoQSU2v4Yeh2yijtE7JBwA%3D%3D";
     String data;
@@ -40,6 +42,7 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
+
 
     // API로부터 데이터 받아오기
     public String getXmlData() throws IOException {
@@ -75,15 +78,6 @@ public class HomeFragment extends Fragment {
         return sb.toString();
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -94,7 +88,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        System.out.println("onCreate" + MainActivity.current_location);
+        // cur_location.setText(MainActivity.current_location);
     }
 
     @Override
@@ -106,9 +101,7 @@ public class HomeFragment extends Fragment {
 
         cur_location = (TextView) view.findViewById(R.id.cur_location);
         cur_dust = (TextView) view.findViewById(R.id.cur_dust);
-
-
-
+        cur_location.setText(MainActivity.current_location);
         return view;
     }
 }
