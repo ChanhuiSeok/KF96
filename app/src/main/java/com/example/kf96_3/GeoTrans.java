@@ -1,4 +1,4 @@
-package com.example.test;
+package com.example.kf96_3;
 
 
 public class GeoTrans {

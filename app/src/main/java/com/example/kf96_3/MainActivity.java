@@ -44,17 +44,17 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment homefrag;
 
     // getXmlData() : 측정소의 이름을 구하는 함수로, API로부터 데이터 받아오는 함수. 반환값은 리스트 형태이며, 리스트 맨 첫번째 요소를 활용하면 된다.
-    public ArrayList<String> getXmlData() throws IOException {
+    public ArrayList<String> getXmlData(double temp_tmX, double temp_tmY) throws IOException {
         StringBuffer buffer = new StringBuffer();
         ArrayList<String> list = new ArrayList<String>();
 
-        String test_tmX = "244148.546388";
-        String test_tmY = "412423.75772";
+        String test_tmX = Double.toString(temp_tmX);
+        String test_tmY = Double.toString(temp_tmY);
         String oper_ver = "1.0";
         StringBuilder urlBuilder = new StringBuilder("http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList");
         urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=CWiUwqUoaLsPMRKzSVdqs4QtbeSFBCsdkmhLm9wVhQZT9nJYIL8jQBR9U6uKyhGEZoQSU2v4Yeh2yijtE7JBwA%3D%3D"); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("tmX", "UTF-8") + "=" + URLEncoder.encode("244148.546388", "UTF-8")); /*TM측정방식 X좌표*/
-        urlBuilder.append("&" + URLEncoder.encode("tmY", "UTF-8") + "=" + URLEncoder.encode("412423.75772", "UTF-8")); /*TM측정방식 Y좌표*/
+        urlBuilder.append("&" + URLEncoder.encode("tmX", "UTF-8") + "=" + URLEncoder.encode(test_tmX, "UTF-8")); /*TM측정방식 X좌표*/
+        urlBuilder.append("&" + URLEncoder.encode("tmY", "UTF-8") + "=" + URLEncoder.encode(test_tmY, "UTF-8")); /*TM측정방식 Y좌표*/
         urlBuilder.append("&" + URLEncoder.encode("ver", "UTF-8") + "=" + URLEncoder.encode("1.0", "UTF-8"));
 
         URL url = new URL(urlBuilder.toString());
@@ -159,22 +159,6 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-        // http 통신에는 thread 가 새로 필요하다.
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<String> data = null;
-                try {
-                    data = getXmlData();
-                    current_station = data.get(0).toString();
-                    //data[0] 값이 측정소의 위치이다.
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
         bottomNav.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int id) {
@@ -252,6 +236,26 @@ public class MainActivity extends AppCompatActivity {
             else{
                 System.out.println("주소값이 null입니다.");
             }
+
+            GeoPoint in_pt = new GeoPoint(latitude, longitude);
+            final GeoPoint tm_pt = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
+
+            // http 통신에는 thread 가 새로 필요하다.
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<String> data = null;
+                    try {
+                        data = getXmlData(tm_pt.getX(), tm_pt.getY());
+                        current_station = data.get(0).toString();
+                        System.out.println("current_station : " + current_station);
+                        //data[0] 값이 측정소의 위치이다.
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
     }
     final LocationListener gpsLocationListener = new LocationListener() {
