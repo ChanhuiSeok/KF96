@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
     // 위치 텍스트
     private TextView txtResult;
 
+    public static String current_station; // 현재 측정소
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,6 +158,22 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.fragment_container, homeFrag)
                     .commit();
         }
+
+        // http 통신에는 thread 가 새로 필요하다.
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> data = null;
+                try {
+                    data = getXmlData();
+                    current_station = data.get(0).toString();
+                    //data[0] 값이 측정소의 위치이다.
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
         bottomNav.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
