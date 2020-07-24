@@ -5,8 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import android.content.Intent;
+
 import android.location.Geocoder;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -36,8 +41,11 @@ public class HomeFragment extends Fragment {
 
     TextView cur_location;
     TextView cur_dust;
+    private Button serviceStartBtn;
+    private Button serviceFinishBtn;
     XmlPullParser xpp;
-
+    Intent serviceIntent;
+    public static HomeFragment homeFragment;
     // 위치 txt
     private TextView lcoation_txt;
     String key = "CWiUwqUoaLsPMRKzSVdqs4QtbeSFBCsdkmhLm9wVhQZT9nJYIL8jQBR9U6uKyhGEZoQSU2v4Yeh2yijtE7JBwA%3D%3D";
@@ -79,8 +87,42 @@ public class HomeFragment extends Fragment {
         View view=null; //Fragment가 보여줄 View 객체를 참조할 참조변수
         view= inflater.inflate(R.layout.fragment_home, container, false);
 
+        homeFragment = this;
         cur_location = (TextView) view.findViewById(R.id.cur_location);
         cur_dust = (TextView) view.findViewById(R.id.cur_dust);
+        serviceStartBtn = (Button)view.findViewById(R.id.startService);
+        serviceFinishBtn = (Button)view.findViewById(R.id.finishService);
+
+        serviceStartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Btn","startBtn");
+                if(GpsService.serviceObj == null) {
+                    //GpsService.serviceFlag = 1;
+                    serviceIntent = new Intent(getActivity(), GpsService.class);
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        System.out.println("26이상");
+                        getContext().startForegroundService(serviceIntent);
+                    } else {
+                        System.out.println("26이하");
+                        getContext().startService(serviceIntent);
+                    }
+                }
+            }
+        });
+
+        serviceFinishBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Btn","finishBtn");
+                if(GpsService.serviceObj != null){
+                    System.out.println("serviceintent not null");
+                    GpsService.serviceObj.onDestroy();
+                }
+
+            }
+        });
+
         Log.d("test","cur_location set text");
         cur_location.setText(MainActivity.current_location);
 
@@ -94,4 +136,5 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
 }
