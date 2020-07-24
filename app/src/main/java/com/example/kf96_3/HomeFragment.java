@@ -1,5 +1,6 @@
 package com.example.kf96_3;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import android.content.Intent;
 
+import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Build;
@@ -41,7 +43,8 @@ import java.util.HashMap;
 public class HomeFragment extends Fragment {
 
     TextView cur_location;
-    TextView cur_dust;
+    TextView cur_dust_25;
+    TextView cur_dust_10;
     TextView commonAir_textView;
     TextView commonNum_textView;
 
@@ -85,6 +88,7 @@ public class HomeFragment extends Fragment {
         // cur_location.setText(MainActivity.current_location);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,23 +99,27 @@ public class HomeFragment extends Fragment {
 
         homeFragment = this;
         cur_location = (TextView) view.findViewById(R.id.cur_location);
-        cur_dust = (TextView) view.findViewById(R.id.pm10Text);
+        cur_dust_10 = (TextView) view.findViewById(R.id.pm10Text);
+        cur_dust_25 = (TextView) view.findViewById(R.id.pm25Text);
         serviceStartBtn = (Button)view.findViewById(R.id.startService);
         serviceFinishBtn = (Button)view.findViewById(R.id.finishService);
         commonAir_textView = (TextView) view.findViewById(R.id.commonAir_textView);
         commonNum_textView = (TextView) view.findViewById(R.id.commonNum_textView);
         commonAirLayout = (LinearLayout) view.findViewById(R.id.commonAir_layout);
 
-        if(commonNum_textView.equals("0") || commonNum_textView.equals("1")){
+        if(commonAir_textView.getText()=="0" || commonAir_textView.getText()=="1"){
             commonAir_textView.setText("좋음");
-            commonAirLayout.setBackgroundResource(R.drawable.custom_circle_green);
+            commonAir_textView.setTextColor(Color.parseColor("#3F51B5"));
+            commonNum_textView.setTextColor(Color.parseColor("#3F51B5"));
         }
-        else if ((commonNum_textView.equals("2")) || (commonNum_textView.equals("3"))){
+        else if (commonAir_textView.getText()=="2" || commonAir_textView.getText()=="3"){
             commonAir_textView.setText("보통");
-            commonAirLayout.setBackgroundResource(R.drawable.custom_circle_blue);
+            commonAir_textView.setTextColor(Color.parseColor("#F84D17"));
+            commonNum_textView.setTextColor(Color.parseColor("#F84D17"));
         } else{
             commonAir_textView.setText("나쁨");
-            commonAirLayout.setBackgroundResource(R.drawable.custom_circle_red);
+            commonAir_textView.setTextColor(Color.parseColor("#9E2134"));
+            commonNum_textView.setTextColor(Color.parseColor("#9E2134"));
         }
 
         serviceStartBtn.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +154,6 @@ public class HomeFragment extends Fragment {
 
         Log.d("test","cur_location set text");
         cur_location.setText(MainActivity.current_location);
-
 
 
         // 테스트용

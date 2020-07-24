@@ -46,6 +46,10 @@ public class GpsService extends Service {
     double latitude; // 위도
     public static String current_location; // 현재 위치
     public static String current_station; // 현재 측정소
+
+    String khaiGrade;
+    String khaiValue;
+
     //public Mythread t1;
     public LocationManager lm;
     public static LocationListener gpsLocationListener;
@@ -220,7 +224,7 @@ public class GpsService extends Service {
 
     public HashMap<String, String> getDustXmlData(String station_name) throws IOException {
         StringBuilder urlBuilder = new StringBuilder("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty");
-        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=CWiUwqUoaLsPMRKzSVdqs4QtbeSFBCsdkmhLm9wVhQZT9nJYIL8jQBR9U6uKyhGEZoQSU2v4Yeh2yijtE7JBwA%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=zO%2FALX92DLcoHKJkPghBFL%2FX9Uv00qqrvM9rVGH7n60Wz0k9hlNpPiNwMLDndeechzzKWHExU2kJ8zXL%2FaUJRw%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
         urlBuilder.append("&" + URLEncoder.encode("stationName", "UTF-8") + "=" + URLEncoder.encode(station_name, "UTF-8")); /*측정소 이름*/
@@ -491,6 +495,7 @@ public class GpsService extends Service {
                 GeoPoint in_pt = new GeoPoint(longitude, latitude);
                 final GeoPoint tm_pt = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
 
+
                 // http 통신에는 thread 가 새로 필요하다.
                 new Thread(new Runnable() {
                     @Override
@@ -512,6 +517,12 @@ public class GpsService extends Service {
                             System.out.println(pm25Value);
                             System.out.println(pm25Grade);
 
+                            khaiValue = value.get("khaiValue");
+                            khaiGrade = value.get("khaiGrade");
+                            if (khaiGrade == "0" || khaiGrade == "1") khaiGrade ="좋음";
+                            else if (khaiGrade == "1" || khaiGrade == "2") khaiGrade = "보통";
+                            else khaiGrade = "나쁨";
+
                             // 카운트
                             if (Integer.parseInt(pm25Grade) == 1) {
                                 result.put("좋음", result.get("좋음") + 1);
@@ -530,8 +541,11 @@ public class GpsService extends Service {
                             MainActivity.mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    HomeFragment.homeFragment.cur_dust.setText(value.get("pm10Value"));
+                                    HomeFragment.homeFragment.cur_dust_10.setText(value.get("pm10Value") +"㎍/㎥");
+                                    HomeFragment.homeFragment.cur_dust_25.setText(value.get("pm25Value") +"㎍/㎥");
                                     HomeFragment.homeFragment.cur_location.setText(current_location);
+                                    HomeFragment.homeFragment.commonNum_textView.setText(khaiValue);
+                                    HomeFragment.homeFragment.commonAir_textView.setText(khaiGrade);
                                 }
                             });
                             current_station = data.get(0).toString();
@@ -606,15 +620,17 @@ public class GpsService extends Service {
                         try {
                             final ArrayList<String> data = getXmlData(tm_pt.getX(), tm_pt.getY());
                             final HashMap<String, String> value = getDustXmlData(data.get(0).toString());
+                            khaiValue = value.get("khaiValue");
+                            khaiGrade = value.get("khaiGrade");
 
                             MainActivity.mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    HomeFragment.homeFragment.cur_dust.setText(value.get("pm10Value"));
+                                    HomeFragment.homeFragment.cur_dust_10.setText(value.get("pm10Value") +"㎍/㎥");
+                                    HomeFragment.homeFragment.cur_dust_25.setText(value.get("pm25Value") +"㎍/㎥");
                                     HomeFragment.homeFragment.cur_location.setText(current_location);
-                                    HomeFragment.homeFragment.commonNum_textView.setText(value.get("khaiValue"));
-                                    HomeFragment.homeFragment.commonAir_textView.setText(value.get("khaiGrade"));
-
+                                    HomeFragment.homeFragment.commonNum_textView.setText(khaiValue);
+                                    HomeFragment.homeFragment.commonAir_textView.setText(khaiGrade);
                                 }
                             });
                             current_station = data.get(0).toString();

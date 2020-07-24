@@ -13,7 +13,8 @@
 
     <color name="navigation_color_add">#C8A2FF</color>
     <color name="navigation_color_mood">#FFB3E8</color>
-    <color name="navigation_color_habit">#E6A919</color>
+    <color name="navigation_color_habit">#F84D17</color>
+    <color name="colorRed">#9E2134</color>
     <color name="navigation_color_chart">#1393A5</color>
     <color name="navigation_color_profile">#69C6D5</color>
 
