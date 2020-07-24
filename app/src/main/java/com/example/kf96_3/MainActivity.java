@@ -22,11 +22,11 @@ public class MainActivity extends AppCompatActivity {
         bottomNav = findViewById(R.id.bottom_nav);
 
         if (savedInstanceState == null){
-            bottomNav.setItemSelected(R.id.calendar, true);
+            bottomNav.setItemSelected(R.id.home, true);
             fragmentManager = getSupportFragmentManager();
-            calendarFragment calendarFrag = new calendarFragment();
+            HomeFragment homeFrag = new HomeFragment();
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, calendarFrag)
+                    .replace(R.id.fragment_container, homeFrag)
                     .commit();
         }
 
@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(int id) {
                 Fragment fragment = null;
                 switch (id){
+                    case R.id.home:
+                        fragment = new HomeFragment();
+                        break;
                     case R.id.calendar:
                         fragment = new calendarFragment();
                         break;

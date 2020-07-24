@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_event_24px"
+        app:cnb_iconColor="@color/colorAccent"
+        app:cnb_iconSize="1dp"
+        android:title="홈" />
+
+    <item
         android:id="@+id/calendar"
         android:icon="@drawable/ic_event_24px"
         app:cnb_iconColor="@color/colorAccent"
