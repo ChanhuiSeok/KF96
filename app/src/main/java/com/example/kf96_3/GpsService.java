@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 
 import com.ismaeldivita.chipnavigation.view.HorizontalMenuItemView;
 
+import org.jetbrains.annotations.NotNull;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -49,6 +50,10 @@ public class GpsService extends Service {
     public LocationManager lm;
     public static LocationListener gpsLocationListener;
     public static GpsService serviceObj = null;
+    public HashMap<String, Integer> result;
+
+    // DB에 전달하기 위한 String
+    public static String db_value;
 
     public GpsService() {
     }
@@ -89,6 +94,9 @@ public class GpsService extends Service {
         System.out.println("service onStartCommand 호출");
         serviceObj = this;
 
+        // null 초기화
+        db_value = null;
+
         initGps();
        // t1 = new Mythread();
        // t1.start();
@@ -105,6 +113,14 @@ public class GpsService extends Service {
        // t1 = null;
         lm.removeUpdates(gpsLocationListener);
         stopSelf();
+
+        String s1 = "미세먼지 = " + result.get("미세먼지합계") + "\n" + "초미세먼지 = " + result.get("초미세먼지합계");
+        String s2 = result.get("좋음") + "@" + result.get("보통") + "@" + result.get("나쁨") + "@" + result.get("매우나쁨");
+
+        System.out.println(s1);
+        System.out.println(s2);
+        // db insert
+
     }
 
     /*class Mythread extends Thread{
@@ -437,12 +453,21 @@ public class GpsService extends Service {
 
 
     public void initGps(){
+
+        result = new HashMap<>();
+        result.put("좋음", 0);
+        result.put("보통", 0);
+        result.put("나쁨", 0);
+        result.put("매우나쁨", 0);
+        result.put("미세먼지합계", 0);
+        result.put("초미세먼지합계", 0);
+
         // 위치 관리자 객체 참조
         System.out.println("initGps");
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         g = new Geocoder(this);
         gpsLocationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
+            public void onLocationChanged(@NotNull Location location) {
                 String provider = location.getProvider();
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
@@ -465,6 +490,62 @@ public class GpsService extends Service {
                 } else {
                     System.out.println("주소값이 null입니다.");
                 }
+                GeoPoint in_pt = new GeoPoint(longitude, latitude);
+                final GeoPoint tm_pt = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
+
+                // http 통신에는 thread 가 새로 필요하다.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("test", "thread run 시작");
+                        try {
+                            final ArrayList<String> data = getXmlData(tm_pt.getX(), tm_pt.getY());
+                            final HashMap<String,String> value = getDustXmlData(data.get(0).toString());
+
+                            System.out.println("value" + value);
+                            System.out.println(value.get("pm10Value"));
+                            // pm10Value
+                            String pm10Value = ""+value.get("pm10Value");
+                            String pm10Grade = ""+value.get("pm10Grade");
+                            String pm25Value = ""+value.get("pm25Value");
+                            String pm25Grade = (String) value.get("pm25Grade");
+                            System.out.println(pm10Value);
+                            System.out.println(pm10Grade);
+                            System.out.println(pm25Value);
+                            System.out.println(pm25Grade);
+
+                            // 카운트
+                            if (Integer.parseInt(pm25Grade) == 1){
+                                result.put("좋음", result.get("좋음") + 1);
+                            }else if(Integer.parseInt(pm25Grade) == 2){
+                                result.put("보통", result.get("보통") + 1);
+                            }else if(Integer.parseInt(pm25Grade) == 3){
+                                result.put("나쁨", result.get("나쁨") + 1);
+                            }else if(Integer.parseInt(pm25Grade) == 4){
+                                result.put("매우나쁨", result.get("매우나쁨") + 1);
+                            }
+
+                            // 합계 계산
+                            result.put("미세먼지합계", result.get("미세먼지합계") + Integer.parseInt(pm10Value));
+                            result.put("초미세먼지합계", result.get("초미세먼지합계") + Integer.parseInt(pm25Value));
+
+                            MainActivity.mainActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    HomeFragment.homeFragment.cur_dust.setText(value.get("pm10Value"));
+                                    HomeFragment.homeFragment.cur_location.setText(current_location);
+                                }
+                            });
+                            current_station = data.get(0).toString();
+                            Log.d("test", "current_station : " + current_station);
+                            System.out.println("current_station : " + current_station);
+                            //data[0] 값이 측정소의 위치이다.
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
             }
         };
 
@@ -528,6 +609,7 @@ public class GpsService extends Service {
                             final ArrayList<String> data = getXmlData(tm_pt.getX(), tm_pt.getY());
                             final HashMap<String,String> value = getDustXmlData(data.get(0).toString());
 
+
                             MainActivity.mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -548,8 +630,4 @@ public class GpsService extends Service {
             }
         }
     }
-
-
-
-
 }
