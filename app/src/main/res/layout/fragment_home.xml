@@ -21,10 +21,10 @@
                 android:id="@+id/calendar_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:letterSpacing="-0.05"
                 android:paddingLeft="10dp"
                 android:paddingTop="22dp"
                 android:paddingBottom="5dp"
-                android:letterSpacing="-0.05"
                 android:text="📢 미세먼지 홈"
                 android:textColor="@color/colorNavy"
                 android:textSize="31dp"
@@ -44,9 +44,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
+                    android:letterSpacing="-0.04"
                     android:padding="10dp"
                     android:text="현재 위치를 받아오는 부분"
-                    android:letterSpacing="-0.04"
                     android:textColor="@color/colorWhite"
                     android:textSize="17dp"
                     android:textStyle="bold" />
@@ -67,9 +67,9 @@
                     android:background="@drawable/custom_button"
                     android:text="> 기록시작"
                     android:textAlignment="center"
+                    android:textColor="@color/colorNavy"
                     android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorNavy" />
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/finishService"
@@ -79,123 +79,132 @@
                     android:layout_weight="1"
                     android:background="@drawable/custom_button"
                     android:text="> 종료하기"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
                     android:textAlignment="center"
-                    android:textColor="@color/colorGray" />
+                    android:textColor="@color/colorGray"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="330dp"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:elevation="2dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/custom_blank"
-                android:layout_gravity="center">
+                android:elevation="2dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textSize="15dp"
-                    android:text="초미세먼지" />
+                    android:text="초미세먼지(PM-2.5)"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/pm25Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="22dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorNavySoft"
                     android:layout_marginTop="-10dp"
                     android:padding="10dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorNavySoft"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="330dp"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:elevation="2dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/custom_blank"
-                android:layout_gravity="center">
+                android:elevation="2dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textSize="15dp"
-                    android:text="미세먼지" />
+                    android:text="미세먼지(PM-10)"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/pm10Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="22dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorNavySoft"
                     android:layout_marginTop="-10dp"
                     android:padding="10dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorNavySoft"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:elevation="2dp"
-                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="통합 대기 정보"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/commonAir_layout"
+                android:layout_width="190dp"
+                android:layout_height="190dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/custom_circle_blue"
                 android:orientation="vertical"
-                android:layout_gravity="center">
-
+                >
                 <TextView
+                    android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:textSize="15dp"
-                    android:text="시간대별 미세먼지 정보" />
-
-                <TextView
-                    android:id="@+id/time_dustView1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="17dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorWhite"
                     android:textStyle="bold"
-                    android:textColor="@color/colorNavySoft"
-                    android:layout_marginTop="-10dp"
-                    android:padding="10dp"
-                    android:text="TextView" />
+                    android:textSize="16dp"
+                    android:textAlignment="center"
+                    android:text="통합대기" />
 
                 <TextView
-                    android:id="@+id/time_dustView2"
+                    android:id="@+id/commonAir_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="17dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorWhite"
                     android:textStyle="bold"
-                    android:textColor="@color/colorNavySoft"
-                    android:layout_marginTop="-10dp"
-                    android:padding="10dp"
-                    android:text="TextView" />
+                    android:textSize="41dp"
+                    android:textAlignment="center"
+                    android:text="-" />
 
                 <TextView
-                    android:id="@+id/time_dustView3"
+                    android:id="@+id/commonNum_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="17dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorWhite"
                     android:textStyle="bold"
-                    android:textColor="@color/colorNavySoft"
-                    android:layout_marginTop="-10dp"
-                    android:padding="10dp"
-                    android:text="TextView" />
+                    android:textSize="24dp"
+                    android:textAlignment="center"
+                    android:text="0" />
 
             </LinearLayout>
 

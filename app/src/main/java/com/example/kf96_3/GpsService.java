@@ -612,6 +612,9 @@ public class GpsService extends Service {
                                 public void run() {
                                     HomeFragment.homeFragment.cur_dust.setText(value.get("pm10Value"));
                                     HomeFragment.homeFragment.cur_location.setText(current_location);
+                                    HomeFragment.homeFragment.commonNum_textView.setText(value.get("khaiValue"));
+                                    HomeFragment.homeFragment.commonAir_textView.setText(value.get("khaiGrade"));
+
                                 }
                             });
                             current_station = data.get(0).toString();

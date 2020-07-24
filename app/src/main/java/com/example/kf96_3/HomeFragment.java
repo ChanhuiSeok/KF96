@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -41,6 +42,9 @@ public class HomeFragment extends Fragment {
 
     TextView cur_location;
     TextView cur_dust;
+    TextView commonAir_textView;
+    TextView commonNum_textView;
+
     private Button serviceStartBtn;
     private Button serviceFinishBtn;
     XmlPullParser xpp;
@@ -50,6 +54,8 @@ public class HomeFragment extends Fragment {
     private TextView lcoation_txt;
     String key = "CWiUwqUoaLsPMRKzSVdqs4QtbeSFBCsdkmhLm9wVhQZT9nJYIL8jQBR9U6uKyhGEZoQSU2v4Yeh2yijtE7JBwA%3D%3D";
     String data;
+
+    LinearLayout commonAirLayout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -92,6 +98,21 @@ public class HomeFragment extends Fragment {
         cur_dust = (TextView) view.findViewById(R.id.pm10Text);
         serviceStartBtn = (Button)view.findViewById(R.id.startService);
         serviceFinishBtn = (Button)view.findViewById(R.id.finishService);
+        commonAir_textView = (TextView) view.findViewById(R.id.commonAir_textView);
+        commonNum_textView = (TextView) view.findViewById(R.id.commonNum_textView);
+        commonAirLayout = (LinearLayout) view.findViewById(R.id.commonAir_layout);
+
+        if(commonNum_textView.equals("1")){
+            commonAir_textView.setText("좋음");
+            commonAirLayout.setBackgroundResource(R.drawable.custom_circle_green);
+        }
+        else if ((commonNum_textView.equals("2")) || (commonNum_textView.equals("3"))){
+            commonAir_textView.setText("보통");
+            commonAirLayout.setBackgroundResource(R.drawable.custom_circle_blue);
+        } else{
+            commonAir_textView.setText("나쁨");
+            commonAirLayout.setBackgroundResource(R.drawable.custom_circle_red);
+        }
 
         serviceStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +146,8 @@ public class HomeFragment extends Fragment {
 
         Log.d("test","cur_location set text");
         cur_location.setText(MainActivity.current_location);
+
+
 
         // 테스트용
         //
