@@ -1,6 +1,10 @@
 package com.example.kf96_3;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -26,6 +30,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 
 public class HomeFragment extends Fragment {
 
@@ -78,6 +83,15 @@ public class HomeFragment extends Fragment {
         cur_dust = (TextView) view.findViewById(R.id.cur_dust);
         Log.d("test","cur_location set text");
         cur_location.setText(MainActivity.current_location);
+
+        // 테스트용
+        String cur_dust_str = "측정일 : "+ MainActivity.current_dust_data.get("dataTime") + "\n" +
+                " 오존 농도 : " + MainActivity.current_dust_data.get("o3Value") + "\n" +
+                " 미세먼지(PM10) 농도 :" + MainActivity.current_dust_data.get("pm10Value") + "\n" +
+                " 초미세먼지(PM2.5) 농도 :" + MainActivity.current_dust_data.get("pm25Value") +
+                " 미세먼지(PM10) 등급 : " + MainActivity.current_dust_data.get("pm10Grade");
+        cur_dust.setText(cur_dust_str);
+
         return view;
     }
 }

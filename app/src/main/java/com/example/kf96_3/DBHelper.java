@@ -4,28 +4,29 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
 
-public class DatabaseManager {
+public class DBHelper extends SQLiteOpenHelper {
 
-    static final String DB_NAME = "Dust.db";
-    static final String TABLE_NAME = "Dusts";
-    static final int DB_VERSION = 1;
+    public static DBHelper dbHelper = null;
+    public static final int DATABASE_VERSION = 1;
 
-    Context myContext = null;
+    public static synchronized DBHelper getInstance(Context context){ // 싱글턴 패턴으로 구현하였다.
+        if(dbHelper == null){
+            dbHelper = new DBHelper(context.getApplicationContext());
+        }
+        return dbHelper;
+    }
 
-    private static DatabaseManager myDBManger = null;
-    private SQLiteDatabase mydatabase = null;
+    public DBHelper(Context context){
+        super(context,"dustDB",null, DATABASE_VERSION);
+    }
 
-    public DatabaseManager(Context context) {
-        myContext = context;
-
-        // DB OPEN
-        mydatabase = context.openOrCreateDatabase(DB_NAME,context.MODE_PRIVATE,null);
-
-        // TABLE 생성하기
-        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
-                "(" + "_date TEXT PRIMARY KEY,"+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String dustSQL = "create table tb_dust "+
+                "(_date TEXT primary key,"+
                 "mangName TEXT,"+
                 "so2Value TEXT,"+
                 "coValue TEXT,"+
@@ -44,36 +45,15 @@ public class DatabaseManager {
                 "pm10Grade TEXT,"+
                 "pm25Grade TEXT,"+
                 "pm10Grade1h TEXT,"+
-                "pm25Grade1h TEXT);");
+                "pm25Grade1h TEXT)";
+        db.execSQL(dustSQL);
     }
 
-    // 싱글톤 패턴 구현
-    public static DatabaseManager getInstance(Context context){
-        if (myDBManger == null){
-            myDBManger = new DatabaseManager(context);
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if(newVersion == DATABASE_VERSION){
+            db.execSQL("drop table tb_dust");
+            onCreate(db);
         }
-        return myDBManger;
     }
-
-    public long insert(ContentValues addRowValue)
-    {
-        return mydatabase.insert(TABLE_NAME, null, addRowValue);
-    }
-
-    public Cursor query(String[] colums,
-                        String selection,
-                        String[] selectionArgs,
-                        String groupBy,
-                        String having,
-                        String orderby)
-    {
-        return mydatabase.query(TABLE_NAME,
-                colums,
-                selection,
-                selectionArgs,
-                groupBy,
-                having,
-                orderby);
-    }
-
 }
