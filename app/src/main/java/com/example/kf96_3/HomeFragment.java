@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class HomeFragment extends Fragment {
 
         cur_location = (TextView) view.findViewById(R.id.cur_location);
         cur_dust = (TextView) view.findViewById(R.id.cur_dust);
+        Log.d("test","cur_location set text");
         cur_location.setText(MainActivity.current_location);
         return view;
     }

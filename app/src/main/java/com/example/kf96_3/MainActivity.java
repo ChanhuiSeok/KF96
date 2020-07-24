@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     // getXmlData() : 측정소의 이름을 구하는 함수로, API로부터 데이터 받아오는 함수. 반환값은 리스트 형태이며, 리스트 맨 첫번째 요소를 활용하면 된다.
     public ArrayList<String> getXmlData(double temp_tmX, double temp_tmY) throws IOException {
+        Log.d("test","lng : "+temp_tmX + " lat : "+temp_tmY);
         StringBuffer buffer = new StringBuffer();
         ArrayList<String> list = new ArrayList<String>();
 
@@ -55,8 +56,9 @@ public class MainActivity extends AppCompatActivity {
         urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=CWiUwqUoaLsPMRKzSVdqs4QtbeSFBCsdkmhLm9wVhQZT9nJYIL8jQBR9U6uKyhGEZoQSU2v4Yeh2yijtE7JBwA%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("tmX", "UTF-8") + "=" + URLEncoder.encode(test_tmX, "UTF-8")); /*TM측정방식 X좌표*/
         urlBuilder.append("&" + URLEncoder.encode("tmY", "UTF-8") + "=" + URLEncoder.encode(test_tmY, "UTF-8")); /*TM측정방식 Y좌표*/
-        urlBuilder.append("&" + URLEncoder.encode("ver", "UTF-8") + "=" + URLEncoder.encode("1.0", "UTF-8"));
+        //urlBuilder.append("&" + URLEncoder.encode("ver", "UTF-8") + "=" + URLEncoder.encode("1.0", "UTF-8"));
 
+        Log.d("test","url : "+urlBuilder.toString());
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -197,65 +199,68 @@ public class MainActivity extends AppCompatActivity {
                     0 );
             //txtResult.setText("위치정보");
         }
-        else{
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        else {
+            Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             assert location != null;
-            String provider = location.getProvider();   // GPS
-            longitude = location.getLongitude(); // 경도
-            latitude = location.getLatitude();   // 위도
-            double altitude = location.getAltitude();   // 고도
-            current_location = null;
-            List<Address> address=null;
+            if (location != null) {
+                String provider = location.getProvider();   // GPS
+                longitude = location.getLongitude(); // 경도
+                latitude = location.getLatitude();   // 위도
+                double altitude = location.getAltitude();   // 고도
+                current_location = null;
+                List<Address> address = null;
 
-            // 위치정보 업데이트 요청
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    1, // 최소시간
-                    1,  // 최소거리
-                    gpsLocationListener);
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                    1,
-                    1,
-                    gpsLocationListener);
+                // 위치정보 업데이트 요청
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                        1, // 최소시간
+                        1,  // 최소거리
+                        gpsLocationListener);
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                        1,
+                        1,
+                        gpsLocationListener);
 
-            System.out.println(latitude);
-            System.out.println(longitude);
-            try {
-                address = g.getFromLocation(latitude, longitude, 1);
-            } catch(IOException e){
-                e.printStackTrace();
-                Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
-            }
-            if (address != null){
-                if (address.size() == 0){
-                    System.out.println("해당하는 주소가 없습니다.");
+                System.out.println(latitude);
+                System.out.println(longitude);
+                try {
+                    address = g.getFromLocation(latitude, longitude, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
                 }
-                else{
-                    current_location = address.get(0).getAddressLine(0).toString();
-                }
-            }
-            else{
-                System.out.println("주소값이 null입니다.");
-            }
-
-            GeoPoint in_pt = new GeoPoint(latitude, longitude);
-            final GeoPoint tm_pt = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
-
-            // http 통신에는 thread 가 새로 필요하다.
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    ArrayList<String> data = null;
-                    try {
-                        data = getXmlData(tm_pt.getX(), tm_pt.getY());
-                        current_station = data.get(0).toString();
-                        System.out.println("current_station : " + current_station);
-                        //data[0] 값이 측정소의 위치이다.
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                if (address != null) {
+                    if (address.size() == 0) {
+                        System.out.println("해당하는 주소가 없습니다.");
+                    } else {
+                        current_location = address.get(0).getAddressLine(0).toString();
                     }
+                } else {
+                    System.out.println("주소값이 null입니다.");
                 }
-            }).start();
+
+                Log.d("test", "lng : " + longitude + "lat : " + latitude);
+                GeoPoint in_pt = new GeoPoint(longitude, latitude);
+                final GeoPoint tm_pt = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
+
+                // http 통신에는 thread 가 새로 필요하다.
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("test", "thread run 시작");
+                        ArrayList<String> data = null;
+                        try {
+                            data = getXmlData(tm_pt.getX(), tm_pt.getY());
+                            current_station = data.get(0).toString();
+                            Log.d("test", "current_station : " + current_station);
+                            System.out.println("current_station : " + current_station);
+                            //data[0] 값이 측정소의 위치이다.
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
         }
     }
     final LocationListener gpsLocationListener = new LocationListener() {
