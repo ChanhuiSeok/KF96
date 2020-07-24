@@ -81,8 +81,8 @@ public class calendarFragment extends Fragment {
                 // Add 1 in month because month index is start with 0
                 String Date;
                 String c_day;
-                if (dayOfMonth < 10) c_day = "0" + (month+1);
-                else c_day = Integer.toString(month+1);
+                if (dayOfMonth < 10) c_day = "0" + (dayOfMonth);
+                else c_day = Integer.toString(dayOfMonth);
 
                 if (month < 10) {
                     Date = year + "-" + "0" + (month + 1) + "-" + c_day;
