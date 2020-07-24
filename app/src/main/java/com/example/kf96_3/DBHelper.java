@@ -27,25 +27,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String dustSQL = "create table tb_dust "+
                 "(_date TEXT primary key,"+
-                "mangName TEXT,"+
-                "so2Value TEXT,"+
-                "coValue TEXT,"+
-                "o3Value TEXT,"+
-                "no2Value TEXT,"+
-                "pm10Value TEXT,"+
-                "pm10Value24 TEXT,"+
-                "pm25Value TEXT,"+
-                "pm25Value24 TEXT,"+
-                "khaiValue TEXT,"+
-                "khaiGrade TEXT,"+
-                "so2Grade TEXT,"+
-                "coGrade TEXT,"+
-                "o3Grade TEXT,"+
-                "no2Grade TEXT,"+
-                "pm10Grade TEXT,"+
-                "pm25Grade TEXT,"+
-                "pm10Grade1h TEXT,"+
-                "pm25Grade1h TEXT)";
+                "nums TEXT,"+
+                "descript TEXT)";
         db.execSQL(dustSQL);
     }
 
