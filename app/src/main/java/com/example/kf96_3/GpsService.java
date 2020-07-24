@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -19,6 +20,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import androidx.constraintlayout.solver.widgets.Helper;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -36,7 +38,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -117,13 +122,25 @@ public class GpsService extends Service {
         lm.removeUpdates(gpsLocationListener);
         stopSelf();
 
-        String s1 = "미세먼지 = " + result.get("미세먼지합계") + "\n" + "초미세먼지 = " + result.get("초미세먼지합계");
+        String s1 = "미세먼지 = " + result.get("미세먼지합계") + "@" + "초미세먼지 = " + result.get("초미세먼지합계");
         String s2 = result.get("좋음") + "@" + result.get("보통") + "@" + result.get("나쁨") + "@" + result.get("매우나쁨");
 
         System.out.println(s1);
         System.out.println(s2);
-        // db insert
 
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        String datestr = format.format(Calendar.getInstance().getTime());
+
+        // db insert
+        DBHelper helper = new DBHelper(this);
+        SQLiteDatabase db = helper.getInstance(this).getWritableDatabase();
+        try {
+            db.execSQL("insert into tb_dust (_date, nums, descript) values (?,?,?)",
+                    new String[]{datestr, s1, s2});
+        }catch(Exception e){
+            System.out.println("이미 데이터가 있습니다");
+        }
+        db.close();
     }
 
     /*class Mythread extends Thread{
@@ -524,13 +541,13 @@ public class GpsService extends Service {
                             else khaiGrade = "나쁨";
 
                             // 카운트
-                            if (Integer.parseInt(pm25Grade) == 1) {
+                            if (pm25Grade.equals("1")) {
                                 result.put("좋음", result.get("좋음") + 1);
-                            } else if (Integer.parseInt(pm25Grade) == 2) {
+                            } else if (pm25Grade.equals("2")) {
                                 result.put("보통", result.get("보통") + 1);
-                            } else if (Integer.parseInt(pm25Grade) == 3) {
+                            } else if (pm25Grade.equals("3")) {
                                 result.put("나쁨", result.get("나쁨") + 1);
-                            } else if (Integer.parseInt(pm25Grade) == 4) {
+                            } else if (pm25Grade.equals("4")) {
                                 result.put("매우나쁨", result.get("매우나쁨") + 1);
                             }
 

@@ -63,11 +63,40 @@
                     android:textSize="17dp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/date_detail_view"
+                <org.eazegraph.lib.charts.BarChart
+                    android:id="@+id/chart"
                     android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/dust_1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:text="초미세먼지 합계"
+                    android:background="@drawable/custom_blank_title"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dust_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:text="미세먼지 합계"
+                    android:background="@drawable/custom_blank_title"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
 
             </LinearLayout>
         </LinearLayout>
