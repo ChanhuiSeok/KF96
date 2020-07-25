@@ -98,14 +98,14 @@ public class calendarFragment extends Fragment {
                 else c_day = Integer.toString(dayOfMonth);
 
                 if (month < 10) {
-                    Date = year + "-" + "0" + (month + 1) + "-" + c_day;
-                } else {
-                    Date = year + "-" + (month + 1) + "-" + c_day;
-                }
-                // set this date in TextView for Display
+                Date = year + "-" + "0" + (month + 1) + "-" + c_day;
+            } else {
+                Date = year + "-" + (month + 1) + "-" + c_day;
+            }
+            // set this date in TextView for Display
                 date_view.setText(Date);
 
-                DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 String datestr = format.format(Calendar.getInstance().getTime());
 
                 // 날짜값에 대한 DB를 불러오도록 한다. 밑의 코드는 임의로 두 컬럼만 받아오는 것이다.
@@ -130,6 +130,9 @@ public class calendarFragment extends Fragment {
                 } else {
                     System.out.println("cursor = " + cursor);
                     System.out.println("데이터가 없습니다!");
+                    dust_1.setText("");
+                    dust_2.setText("");
+                    setBarChart(0,0,0,0);
                     //date_detail_view.setText("데이터가 없습니다!");
                 }
 

@@ -128,7 +128,7 @@ public class GpsService extends Service {
         System.out.println(s1);
         System.out.println(s2);
 
-        DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String datestr = format.format(Calendar.getInstance().getTime());
 
         // db insert
