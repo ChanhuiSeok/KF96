@@ -147,29 +147,35 @@ public class GpsService extends Service {
             System.out.println(datestr);
 
             Cursor cursor = db.rawQuery("select _date, nums, descript from tb_dust where _date='" + datestr + "'", null);
-            String temp_s1 = cursor.getString(1);
-            String temp_s2 = cursor.getString(2);
+            if(cursor.moveToFirst()) {
+
+                System.out.println("moveToFirst 안");
+                String temp_s1 = cursor.getString(1);
+                String temp_s2 = cursor.getString(2);
 
 
-            String dust = temp_s1.split("@")[0].split("=")[1];
-            String dust2 = temp_s1.split("@")[1].split("=")[1];
-            int sumDust = Integer.parseInt(dust) + result.get("미세먼지합계");
-            int sumDust2 = Integer.parseInt(dust2) + result.get("초미세먼지합계");
-            s1 =  "미세먼지 = " + sumDust + "@" + "초미세먼지 = " + sumDust2;
+                String dust = temp_s1.split("@")[0].split("= ")[1];
+                String dust2 = temp_s1.split("@")[1].split("= ")[1];
+                Log.d("dust","dust : "+dust +" dust2 : "+dust2);
+                int sumDust = Integer.parseInt(dust) + result.get("미세먼지합계");
+                int sumDust2 = Integer.parseInt(dust2) + result.get("초미세먼지합계");
+                s1 = "미세먼지 = " + sumDust + "@" + "초미세먼지 = " + sumDust2;
 
-            int temp_good = Integer.parseInt(temp_s2.split("@")[0]) + result.get("좋음");
-            int temp_normal = Integer.parseInt(temp_s2.split("@")[1]) + result.get("보통");
-            int temp_bad = Integer.parseInt(temp_s2.split("@")[2]) + result.get("나쁨");
-            int temp_very_bad = Integer.parseInt(temp_s2.split("@")[3]) + result.get("매우나쁨");
+                int temp_good = Integer.parseInt(temp_s2.split("@")[0]) + result.get("좋음");
+                int temp_normal = Integer.parseInt(temp_s2.split("@")[1]) + result.get("보통");
+                int temp_bad = Integer.parseInt(temp_s2.split("@")[2]) + result.get("나쁨");
+                int temp_very_bad = Integer.parseInt(temp_s2.split("@")[3]) + result.get("매우나쁨");
 
-            s2 =  temp_good + "@" + temp_normal + "@" + temp_bad + "@" + temp_very_bad;
+                s2 = temp_good + "@" + temp_normal + "@" + temp_bad + "@" + temp_very_bad;
 
-            System.out.println("s1 =" + s1);
-            System.out.println("s1 =" + s2);
-            db = helper.getInstance(this).getWritableDatabase();
-            db.execSQL("update tb_dust set nums = s1, descript = s2 where _data='" + datestr + "'");
-            // Cursor cursor = db.rawQuery("select _date, nums, descript from tb_dust where _date='" + Date + "'", null);
-            // db.execSQL("update tb_dust set");
+                System.out.println("s1 =" + s1);
+                System.out.println("s2 =" + s2);
+                db = helper.getInstance(this).getWritableDatabase();
+                String[] args = {s1,s2};
+                db.execSQL("update tb_dust set nums = ?, descript = ? where _date='" + datestr + "'",args);
+                // Cursor cursor = db.rawQuery("select _date, nums, descript from tb_dust where _date='" + Date + "'", null);
+                // db.execSQL("update tb_dust set");
+            }
         }
         db.close();
     }
@@ -189,7 +195,7 @@ public class GpsService extends Service {
         String test_tmY = Double.toString(temp_tmY);
         String oper_ver = "1.0";
         StringBuilder urlBuilder = new StringBuilder("http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList");
-        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=zO%2FALX92DLcoHKJkPghBFL%2FX9Uv00qqrvM9rVGH7n60Wz0k9hlNpPiNwMLDndeechzzKWHExU2kJ8zXL%2FaUJRw%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=2BHhQBgrtHKBLFizkZInIKSYp5GQVuVKkijrzqD4BRzKUkBEo0gjWJoXC81zCQu%2B9475nBc%2BosvT%2BKrwoNmHQQ%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("tmX", "UTF-8") + "=" + URLEncoder.encode(test_tmX, "UTF-8")); /*TM측정방식 X좌표*/
         urlBuilder.append("&" + URLEncoder.encode("tmY", "UTF-8") + "=" + URLEncoder.encode(test_tmY, "UTF-8")); /*TM측정방식 Y좌표*/
         //urlBuilder.append("&" + URLEncoder.encode("ver", "UTF-8") + "=" + URLEncoder.encode("1.0", "UTF-8"));
@@ -272,7 +278,7 @@ public class GpsService extends Service {
 
     public HashMap<String, String> getDustXmlData(String station_name) throws IOException {
         StringBuilder urlBuilder = new StringBuilder("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty");
-        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=zO%2FALX92DLcoHKJkPghBFL%2FX9Uv00qqrvM9rVGH7n60Wz0k9hlNpPiNwMLDndeechzzKWHExU2kJ8zXL%2FaUJRw%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=2BHhQBgrtHKBLFizkZInIKSYp5GQVuVKkijrzqD4BRzKUkBEo0gjWJoXC81zCQu%2B9475nBc%2BosvT%2BKrwoNmHQQ%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
         urlBuilder.append("&" + URLEncoder.encode("stationName", "UTF-8") + "=" + URLEncoder.encode(station_name, "UTF-8")); /*측정소 이름*/
