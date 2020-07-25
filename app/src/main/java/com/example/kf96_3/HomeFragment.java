@@ -102,6 +102,10 @@ public class HomeFragment extends Fragment {
         cur_location = (TextView) view.findViewById(R.id.cur_location);
         cur_dust_10 = (TextView) view.findViewById(R.id.pm10Text);
         cur_dust_25 = (TextView) view.findViewById(R.id.pm25Text);
+        Log.d("location","current_location : "+GpsService.current_location);
+        cur_location.setText(GpsService.current_location);
+        cur_dust_10.setText(GpsService.current_dust);
+        cur_dust_25.setText(GpsService.current_little_dust);
         serviceStartBtn = (Button)view.findViewById(R.id.startService);
         serviceFinishBtn = (Button)view.findViewById(R.id.finishService);
         commonAir_textView = (TextView) view.findViewById(R.id.commonAir_textView);
@@ -140,21 +144,26 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Log.d("test","cur_location set text");
-        cur_location.setText(MainActivity.current_location);
-
-        if(commonAir_textView.getText().toString().equals("좋음")){
+        Log.d("check","check : "+GpsService.check);
+        commonNum_textView.setText(GpsService.number);
+        if( (commonAir_textView.getText().toString().equals("좋음")) || (GpsService.check.equals("좋음"))){
             ment_textView.setText("오늘은 날씨가 좋아요! 나들이 어떠세요?");
+            commonAir_textView.setText("좋음\uD83D\uDE04");
             commonAir_textView.setTextColor(Color.parseColor("#3F51B5"));
             commonNum_textView.setTextColor(Color.parseColor("#3F51B5"));
         }
-        else if (commonAir_textView.getText().toString().equals("보통") ){
+        else if ((commonAir_textView.getText().toString().equals("보통")) || (GpsService.check.equals("보통"))){
             ment_textView.setText("공기가 다소 답답하고 별로입니다. 조심하세요.");
+            commonAir_textView.setText("보통\uD83D\uDE10");
             commonAir_textView.setTextColor(Color.parseColor("#F84D17"));
             commonNum_textView.setTextColor(Color.parseColor("#F84D17"));
-        } else{
+        } else if((commonAir_textView.getText().toString().equals("나쁨")) || (GpsService.check.equals("나쁨"))) {
             commonAir_textView.setText("나쁨");
             ment_textView.setText("오늘은 꼼짝도 하지 말고 집에 계세요!");
+            commonAir_textView.setText("나쁨\uD83D\uDE21");
+            commonAir_textView.setTextColor(Color.parseColor("#9E2134"));
+            commonNum_textView.setTextColor(Color.parseColor("#9E2134"));
+        } else{
             commonAir_textView.setTextColor(Color.parseColor("#9E2134"));
             commonNum_textView.setTextColor(Color.parseColor("#9E2134"));
         }

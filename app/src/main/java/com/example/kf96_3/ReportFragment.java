@@ -73,7 +73,7 @@ public class ReportFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_report, container, false);
 
         lineChart = (LineChart) view.findViewById(R.id.chart2);
-        setlineChart(0, 0, 0, 0, 120, 50, 0);
+        setlineChart(0, 0, 0, 0, 1831, 2159, 0);
         // Inflate the layout for this fragment
         return view;
     }

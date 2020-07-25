@@ -38,6 +38,7 @@ public class calendarFragment extends Fragment {
     CalendarView calender;
     TextView date_view, date_detail_view;
     TextView dust_1, dust_2;
+    TextView desc;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -79,6 +80,7 @@ public class calendarFragment extends Fragment {
         chart = (BarChart) view.findViewById(R.id.chart);
         dust_1 = (TextView) view.findViewById(R.id.dust_1);
         dust_2 = (TextView) view.findViewById(R.id.dust_2);
+        desc = (TextView)view.findViewById(R.id.desc);
         // date_detail_view = (TextView) view.findViewById(R.id.date_detail_view);
 
         // Add Listener in calendar
@@ -120,10 +122,26 @@ public class calendarFragment extends Fragment {
                     int bad = Integer.parseInt(value.split("@")[2]);
                     int very_bad = Integer.parseInt(value.split("@")[3]);
 
-                    dust_1.setText(dust.split("@")[0]);
-                    dust_2.setText(dust.split("@")[1]);
+                    int total = (15*good + 55*normal + 115 * bad + 151 * very_bad) / (good+normal+bad+very_bad);
+                    if(total>=0 && total<=30){
+                        desc.setText("대기오염 관련 질환자군에서도 영향이 유발되지 않을 수준");
+                        desc.setTextColor(Color.BLUE);
+                    }else if(total>=31 && total<=80){
+                        desc.setText("환자군에게 만성 노출시 경미한 영향이 유발될 수 있는 수준");
+                        desc.setTextColor(Color.GREEN);
+                    }else if(total>=81 && total<=150){
+                        desc.setText("환자군 및 민감군(어린이,노약자 등)에게 유해한 영향 유발,일반인도 건강상 불쾌감을 경험할 수 있는 수준");
+                        desc.setTextColor(Color.rgb(255,102,0));
+                    }else{
+                        desc.setText("환자군 및 민감군에게 급성 노출시 심각한 영향 유발, 일반인도 약한 영향이 유발될 수 있는 수준");
+                        desc.setTextColor(Color.RED);
+                    }
+
+                    dust_1.setText(dust.split("@")[0]+"㎍/㎥");
+                    dust_2.setText(dust.split("@")[1]+"㎍/㎥");
                     System.out.println("값 : " + good + " " + normal + " " + bad + " " + very_bad);
                     setBarChart(good, normal, bad, very_bad);
+
                     //result.add(cursor.getString(0));
                     //result.add(cursor.getString(1));
                     //date_detail_view.setText("날짜 : " + result.get(0) + "& pm10 농도 :" + result.get(1));

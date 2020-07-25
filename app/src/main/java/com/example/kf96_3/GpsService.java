@@ -51,8 +51,12 @@ public class GpsService extends Service {
     public Geocoder g;
     double longitude; // 경도
     double latitude; // 위도
-    public static String current_location; // 현재 위치
+    public static String current_location = ""; // 현재 위치
+    public static String current_dust = "";
+    public static String current_little_dust = "";
     public static String current_station; // 현재 측정소
+    public static String check="";
+    public static String number= "0";
 
     String khaiGrade;
     String khaiValue;
@@ -139,6 +143,7 @@ public class GpsService extends Service {
         try {
             db.execSQL("insert into tb_dust (_date, nums, descript) values (?,?,?)",
                     new String[]{datestr, s1, s2});
+
         }catch(Exception e){
             System.out.println("이미 데이터가 있습니다");
             db = helper.getInstance(this).getReadableDatabase();
@@ -573,9 +578,18 @@ public class GpsService extends Service {
 
                             khaiValue = value.get("khaiValue");
                             khaiGrade = value.get("khaiGrade");
-                            if (khaiGrade.equals("0") || khaiGrade.equals("1")) khaiGrade ="좋음";
-                            else if (khaiGrade.equals("1") || khaiGrade.equals("2")) khaiGrade = "보통";
-                            else khaiGrade = "나쁨";
+                            if (khaiGrade.equals("0") || khaiGrade.equals("1")) {
+                                check = "좋음";
+                                khaiGrade ="좋음";
+                            }
+                            else if (khaiGrade.equals("1") || khaiGrade.equals("2")){
+                                check = "보통";
+                                khaiGrade = "보통";
+                            }
+                            else {
+                                check = "나쁨";
+                                khaiGrade = "나쁨";
+                            }
 
                             // 카운트
                             if (pm25Grade.equals("1")) {
@@ -595,6 +609,9 @@ public class GpsService extends Service {
                             MainActivity.mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    current_dust = value.get("pm10Value") +"㎍/㎥";
+                                    current_little_dust = value.get("pm25Value") +"㎍/㎥";
+                                    number = khaiValue;
                                     HomeFragment.homeFragment.cur_dust_10.setText(value.get("pm10Value") +"㎍/㎥");
                                     HomeFragment.homeFragment.cur_dust_25.setText(value.get("pm25Value") +"㎍/㎥");
                                     HomeFragment.homeFragment.cur_location.setText(current_location);
@@ -695,22 +712,28 @@ public class GpsService extends Service {
                             MainActivity.mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    current_dust = value.get("pm10Value") +"㎍/㎥";
+                                    current_little_dust = value.get("pm25Value") +"㎍/㎥";
+                                    number = khaiValue;
                                     HomeFragment.homeFragment.cur_dust_10.setText(value.get("pm10Value") +"㎍/㎥");
                                     HomeFragment.homeFragment.cur_dust_25.setText(value.get("pm25Value") +"㎍/㎥");
                                     HomeFragment.homeFragment.cur_location.setText(current_location);
                                     HomeFragment.homeFragment.commonNum_textView.setText(khaiValue);
                                     HomeFragment.homeFragment.commonAir_textView.setText(khaiGrade);
                                     if(khaiGrade.equals("좋음")) {
+                                        check = "좋음";
                                         HomeFragment.homeFragment.commonAir_textView.setText("좋음\uD83D\uDE04");
                                         HomeFragment.homeFragment.ment_textView.setText("오늘은 날씨가 좋아요! 나들이 어떠세요?");
                                         HomeFragment.homeFragment.commonAir_textView.setTextColor(Color.parseColor("#3F51B5"));
                                         HomeFragment.homeFragment.commonNum_textView.setTextColor(Color.parseColor("#3F51B5")); }
                                     else if(khaiGrade.equals("보통")) {
+                                        check = "보통";
                                         HomeFragment.homeFragment.commonAir_textView.setText("보통\uD83D\uDE10");
                                         HomeFragment.homeFragment.ment_textView.setText("공기가 다소 답답하고 별로입니다. 조심하세요.");
                                         HomeFragment.homeFragment.commonAir_textView.setTextColor(Color.parseColor("#F84D17"));
                                         HomeFragment.homeFragment.commonNum_textView.setTextColor(Color.parseColor("#F84D17")); }
                                     else if(khaiGrade.equals("나쁨")) {
+                                        check = "나쁨";
                                         HomeFragment.homeFragment.commonAir_textView.setText("나쁨\uD83D\uDE21");
                                         HomeFragment.homeFragment.ment_textView.setText("오늘은 꼼짝도 하지 말고 집에 계세요!");
                                         HomeFragment.homeFragment.commonAir_textView.setTextColor(Color.parseColor("#9E2134"));
@@ -732,3 +755,7 @@ public class GpsService extends Service {
     }
 }
 
+
+//http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?ServiceKey=2BHhQBgrtHKBLFizkZInIKSYp5GQVuVKkijrzqD4BRzKUkBEo0gjWJoXC81zCQu%2B9475nBc%2BosvT%2BKrwoNmHQQ%3D%3D&tmX=345169.95320862357&tmY=266382.25457728235
+//http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnMesureSidoLIst?serviceKey=2BHhQBgrtHKBLFizkZInIKSYp5GQVuVKkijrzqD4BRzKUkBEo0gjWJoXC81zCQu%2B9475nBc%2BosvT%2BKrwoNmHQQ%3D%3D&numOfRows=10&pageNo=1&sidoName=%EC%84%9C%EC%9A%B8&searchCondition=DAILY&
+//http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?serviceKey=2BHhQBgrtHKBLFizkZInIKSYp5GQVuVKkijrzqD4BRzKUkBEo0gjWJoXC81zCQu%2B9475nBc%2BosvT%2BKrwoNmHQQ%3D%3D&numOfRows=10&pageNo=1&stationName=%EC%A2%85%EB%A1%9C%EA%B5%AC&dataTerm=DAILY&ver=1.3&
