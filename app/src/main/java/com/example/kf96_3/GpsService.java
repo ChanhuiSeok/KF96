@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
@@ -139,6 +140,35 @@ public class GpsService extends Service {
                     new String[]{datestr, s1, s2});
         }catch(Exception e){
             System.out.println("이미 데이터가 있습니다");
+            db = helper.getInstance(this).getReadableDatabase();
+            String sql = "select _date, nums, descript from tb_dust where _date='" + datestr + "'";
+            System.out.println(sql);
+            System.out.println(datestr);
+
+            Cursor cursor = db.rawQuery("select _date, nums, descript from tb_dust where _date='" + datestr + "'", null);
+            String temp_s1 = cursor.getString(1);
+            String temp_s2 = cursor.getString(2);
+
+
+            String dust = temp_s1.split("@")[0].split("=")[1];
+            String dust2 = temp_s1.split("@")[1].split("=")[1];
+            int sumDust = Integer.parseInt(dust) + result.get("미세먼지합계");
+            int sumDust2 = Integer.parseInt(dust2) + result.get("초미세먼지합계");
+            s1 =  "미세먼지 = " + sumDust + "@" + "초미세먼지 = " + sumDust2;
+
+            int temp_good = Integer.parseInt(temp_s2.split("@")[0]) + result.get("좋음");
+            int temp_normal = Integer.parseInt(temp_s2.split("@")[1]) + result.get("보통");
+            int temp_bad = Integer.parseInt(temp_s2.split("@")[2]) + result.get("나쁨");
+            int temp_very_bad = Integer.parseInt(temp_s2.split("@")[3]) + result.get("매우나쁨");
+
+            s2 =  temp_good + "@" + temp_normal + "@" + temp_bad + "@" + temp_very_bad;
+
+            System.out.println("s1 =" + s1);
+            System.out.println("s1 =" + s2);
+            db = helper.getInstance(this).getWritableDatabase();
+            db.execSQL("update tb_dust set nums = s1, descript = s2 where _data='" + datestr + "'");
+            // Cursor cursor = db.rawQuery("select _date, nums, descript from tb_dust where _date='" + Date + "'", null);
+            // db.execSQL("update tb_dust set");
         }
         db.close();
     }

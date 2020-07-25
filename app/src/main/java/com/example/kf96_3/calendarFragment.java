@@ -105,7 +105,7 @@ public class calendarFragment extends Fragment {
                 // set this date in TextView for Display
                 date_view.setText(Date);
 
-                DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 String datestr = format.format(Calendar.getInstance().getTime());
 
                 // 날짜값에 대한 DB를 불러오도록 한다. 밑의 코드는 임의로 두 컬럼만 받아오는 것이다.
