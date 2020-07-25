@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -536,8 +537,8 @@ public class GpsService extends Service {
 
                             khaiValue = value.get("khaiValue");
                             khaiGrade = value.get("khaiGrade");
-                            if (khaiGrade == "0" || khaiGrade == "1") khaiGrade ="좋음";
-                            else if (khaiGrade == "1" || khaiGrade == "2") khaiGrade = "보통";
+                            if (khaiGrade.equals("0") || khaiGrade.equals("1")) khaiGrade ="좋음";
+                            else if (khaiGrade.equals("1") || khaiGrade.equals("2")) khaiGrade = "보통";
                             else khaiGrade = "나쁨";
 
                             // 카운트
@@ -563,6 +564,21 @@ public class GpsService extends Service {
                                     HomeFragment.homeFragment.cur_location.setText(current_location);
                                     HomeFragment.homeFragment.commonNum_textView.setText(khaiValue);
                                     HomeFragment.homeFragment.commonAir_textView.setText(khaiGrade);
+                                    if(khaiGrade.equals("좋음")) {
+                                        HomeFragment.homeFragment.commonAir_textView.setText("좋음\uD83D\uDE04");
+                                        HomeFragment.homeFragment.ment_textView.setText("오늘은 날씨가 좋아요! 나들이 어떠세요?");
+                                        HomeFragment.homeFragment.commonAir_textView.setTextColor(Color.parseColor("#3F51B5"));
+                                        HomeFragment.homeFragment.commonNum_textView.setTextColor(Color.parseColor("#3F51B5")); }
+                                    else if(khaiGrade.equals("보통")) {
+                                        HomeFragment.homeFragment.commonAir_textView.setText("보통\uD83D\uDE10");
+                                        HomeFragment.homeFragment.ment_textView.setText("공기가 다소 답답하고 별로입니다. 조심하세요.");
+                                        HomeFragment.homeFragment.commonAir_textView.setTextColor(Color.parseColor("#F84D17"));
+                                        HomeFragment.homeFragment.commonNum_textView.setTextColor(Color.parseColor("#F84D17")); }
+                                    else if(khaiGrade.equals("나쁨")) {
+                                        HomeFragment.homeFragment.commonAir_textView.setText("나쁨\uD83D\uDE21");
+                                        HomeFragment.homeFragment.ment_textView.setText("오늘은 꼼짝도 하지 말고 집에 계세요!");
+                                        HomeFragment.homeFragment.commonAir_textView.setTextColor(Color.parseColor("#9E2134"));
+                                        HomeFragment.homeFragment.commonNum_textView.setTextColor(Color.parseColor("#9E2134")); }
                                 }
                             });
                             current_station = data.get(0).toString();
@@ -648,6 +664,21 @@ public class GpsService extends Service {
                                     HomeFragment.homeFragment.cur_location.setText(current_location);
                                     HomeFragment.homeFragment.commonNum_textView.setText(khaiValue);
                                     HomeFragment.homeFragment.commonAir_textView.setText(khaiGrade);
+                                    if(khaiGrade.equals("좋음")) {
+                                        HomeFragment.homeFragment.commonAir_textView.setText("좋음\uD83D\uDE04");
+                                        HomeFragment.homeFragment.ment_textView.setText("오늘은 날씨가 좋아요! 나들이 어떠세요?");
+                                        HomeFragment.homeFragment.commonAir_textView.setTextColor(Color.parseColor("#3F51B5"));
+                                        HomeFragment.homeFragment.commonNum_textView.setTextColor(Color.parseColor("#3F51B5")); }
+                                    else if(khaiGrade.equals("보통")) {
+                                        HomeFragment.homeFragment.commonAir_textView.setText("보통\uD83D\uDE10");
+                                        HomeFragment.homeFragment.ment_textView.setText("공기가 다소 답답하고 별로입니다. 조심하세요.");
+                                        HomeFragment.homeFragment.commonAir_textView.setTextColor(Color.parseColor("#F84D17"));
+                                        HomeFragment.homeFragment.commonNum_textView.setTextColor(Color.parseColor("#F84D17")); }
+                                    else if(khaiGrade.equals("나쁨")) {
+                                        HomeFragment.homeFragment.commonAir_textView.setText("나쁨\uD83D\uDE21");
+                                        HomeFragment.homeFragment.ment_textView.setText("오늘은 꼼짝도 하지 말고 집에 계세요!");
+                                        HomeFragment.homeFragment.commonAir_textView.setTextColor(Color.parseColor("#9E2134"));
+                                        HomeFragment.homeFragment.commonNum_textView.setTextColor(Color.parseColor("#9E2134")); }
                                 }
                             });
                             current_station = data.get(0).toString();

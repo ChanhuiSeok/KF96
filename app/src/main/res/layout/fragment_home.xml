@@ -147,70 +147,59 @@
 
 
             <LinearLayout
-                android:layout_width="330dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:elevation="2dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="통합 대기 정보"
-                    android:textSize="15dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/commonAir_layout"
                 android:layout_width="190dp"
                 android:layout_height="190dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:textColor="@color/colorNavy"
-                    android:textStyle="bold"
-                    android:textSize="16dp"
+                    android:text="통합대기"
                     android:textAlignment="center"
-                    android:text="통합대기" />
+                    android:textColor="@color/colorNavy"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/commonAir_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/colorNavy"
-                    android:textStyle="bold"
-                    android:textSize="50dp"
+                    android:text="-"
                     android:textAlignment="center"
-                    android:text="-" />
+                    android:textColor="@color/colorNavy"
+                    android:textSize="55dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/commonNum_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:textColor="@color/colorNavy"
-                    android:textStyle="bold"
-                    android:textSize="24dp"
+                    android:text="0"
                     android:textAlignment="center"
-                    android:text="0" />
+                    android:textColor="@color/colorNavy"
+                    android:textSize="26dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/ment_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="-"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
-
     </ScrollView>
-
 
 </LinearLayout>
