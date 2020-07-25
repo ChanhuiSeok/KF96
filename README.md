@@ -13,7 +13,7 @@
 ✔ 　사용자의 주간 미세먼지 노출 데이터 시각화  
 
 # 🎬 데모 영상
-<p>업로드 예정</p>
+https://www.youtube.com/watch?v=Nw1NLM3C418&feature=youtu.be
 
 # 🚀 사용한 공공데이터  
 한국환경공단_측정소정보 (https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15000660)  
