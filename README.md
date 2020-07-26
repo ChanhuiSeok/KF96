@@ -18,5 +18,5 @@ https://www.youtube.com/watch?v=Nw1NLM3C418&feature=youtu.be
 # 🚀 사용한 공공데이터  
 한국환경공단_측정소정보 (https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15000660)  
 한국환경공단_대기오염정보 (https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15000581)  
-제3회 정부혁신제안끝장개발대회(http://civichack.or.kr/?)
+제3회 정부혁신제안끝장개발대회(http://civichack.or.kr/)
   
